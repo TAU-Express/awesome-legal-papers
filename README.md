@@ -14,7 +14,6 @@ Part of the [ACE-EXP](https://github.com/TAU-Express/ace-exp) legal-AI evaluatio
 
 _Population in progress — see [ace-exp PROGRESS.md](https://github.com/TAU-Express/ace-exp/blob/main/PROGRESS.md) for status. Each entry will list: title, year, venue, link, and the dataset(s)/task(s) it reports results on._
 
-Citation/results data for this list is sourced only from the Semantic Scholar, Crossref, and arXiv APIs — see [ace-exp SPEC.md §4](https://github.com/TAU-Express/ace-exp/blob/main/SPEC.md) for the sourcing policy (no Google Scholar scraping, no Sci-Hub).
 
 | Title | Year | Venue | Link | Datasets/Tasks |
 |-------|------|-------|------|----------------|
