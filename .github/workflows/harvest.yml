@@ -1,0 +1,54 @@
+name: Harvest new legal papers
+
+on:
+  schedule:
+    - cron: "0 6 * * 1-5"   # weekdays, 06:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: harvest-papers
+  cancel-in-progress: false
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: "--max-turns 8"
+          prompt: |
+            You are updating this "awesome-legal-papers" list.
+
+            Task: find new papers on legal NLP, legal AI, or legal-domain evaluation
+            not already listed in the "Papers" table in README.md, and add them.
+
+            Sourcing rules (non-negotiable):
+            - Use only the Semantic Scholar API, Crossref API, and arXiv API to find
+              and describe papers.
+            - Do NOT scrape Google Scholar. Do NOT use Sci-Hub. If you use any
+              third-party tool/library that bundles those as a code path, only call
+              its Semantic Scholar/Crossref/arXiv functions.
+            - Every entry needs a resolvable link (DOI, arXiv ID, or publisher URL)
+              that you have actually verified resolves — do not add a paper you
+              cannot link to.
+
+            Content rules:
+            - For each new paper, add one row: Title, Year, Venue, Link, and which
+              dataset(s)/task(s) it reports results on (link to
+              https://github.com/TAU-Express/awesome-legal-datasets or
+              https://github.com/TAU-Express/awesome-legal-tasks entries where
+              applicable).
+            - Do not remove or edit existing rows.
+            - Do not touch any file other than README.md.
+            - Keep the diff small — a few entries per run is fine, this runs on a
+              schedule.
+
+            Open a pull request with your changes. Do not merge it yourself.
